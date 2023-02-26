@@ -1,10 +1,7 @@
 <template>
   <main>
-    <user-list
-      :users="activeUsersSetup"
-      @list-projects="selectUserSetup"
-    ></user-list>
-    <projects-list :user="selectedUserSetup"></projects-list>
+    <user-list :users="activeUsers" @list-projects="selectUser"></user-list>
+    <projects-list :user="selectedUser"></projects-list>
   </main>
 </template>
 
@@ -23,17 +20,16 @@ export default {
   // Vue 3 Setup Method
   setup() {
     // Data properties
-    const selectedUserSetup = ref(null);
-    const activeUsersSetup = reactive(USER_DATA);
+    const selectedUser = ref(null);
+    const activeUsers = reactive(USER_DATA);
 
     // Methods
-    function selectUserSetup(uid) {
-      console.log("fired");
-      selectedUserSetup.value = activeUsersSetup.find((usr) => usr.id === uid);
+    function selectUser(uid) {
+      selectedUser.value = activeUsers.find((usr) => usr.id === uid);
     }
 
     // Return properties in order to expose in the component template
-    return { selectedUserSetup, activeUsersSetup, selectUserSetup };
+    return { selectedUser, activeUsers, selectUser };
   },
 };
 </script>
