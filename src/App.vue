@@ -1,31 +1,39 @@
 <template>
   <main>
-    <user-list :users="activeUsers" @list-projects="selectUser"></user-list>
-    <projects-list :user="selectedUser"></projects-list>
+    <user-list
+      :users="activeUsersSetup"
+      @list-projects="selectUserSetup"
+    ></user-list>
+    <projects-list :user="selectedUserSetup"></projects-list>
   </main>
 </template>
 
 <script>
-import USER_DATA from './dummy-data.js';
-
-import UserList from './components/users/UserList.vue';
-import ProjectsList from './components/projects/ProjectsList.vue';
+import USER_DATA from "./dummy-data.js";
+import { ref, reactive } from "vue";
+import UserList from "./components/users/UserList.vue";
+import ProjectsList from "./components/projects/ProjectsList.vue";
 
 export default {
   components: {
     UserList,
     ProjectsList,
   },
-  data() {
-    return {
-      selectedUser: null,
-      activeUsers: USER_DATA,
-    };
-  },
-  methods: {
-    selectUser(uid) {
-      this.selectedUser = this.activeUsers.find((usr) => usr.id === uid);
-    },
+
+  // Vue 3 Setup Method
+  setup() {
+    // Data properties
+    const selectedUserSetup = ref(null);
+    const activeUsersSetup = reactive(USER_DATA);
+
+    // Methods
+    function selectUserSetup(uid) {
+      console.log("fired");
+      selectedUserSetup.value = activeUsersSetup.find((usr) => usr.id === uid);
+    }
+
+    // Return properties in order to expose in the component template
+    return { selectedUserSetup, activeUsersSetup, selectUserSetup };
   },
 };
 </script>
