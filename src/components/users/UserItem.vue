@@ -7,12 +7,18 @@
 
 <script>
 export default {
-  props: ['id', 'userName'],
-  emits: ['list-projects'],
-  methods: {
-    viewProjects() {
-      this.$emit('list-projects', this.id);
-    },
+  props: ["id", "userName"],
+  emits: ["list-projects"],
+
+  // Setup Method receives two arguments:props and context
+  // Destructure emits out of context obejct in order to emit a custom event via the Setup Method.
+  setup(props, { emit }) {
+    function viewProjects() {
+      emit("list-projects", props.id);
+    }
+    return {
+      viewProjects,
+    };
   },
 };
 </script>
